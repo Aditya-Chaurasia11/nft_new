@@ -6,6 +6,9 @@ import Nft from "./Pages/Nft.jsx";
 import Transfer from "./Pages/Transfer.jsx";
 import NftPage from "./Pages/NftPage.jsx";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 function App() {
   return (
     <BrowserRouter>
@@ -14,8 +17,9 @@ function App() {
         <Route path="/" exact element={<Home />} />
         <Route path="/nft" element={<Nft />} />
         <Route path="/transfer" element={<Transfer />} />
-        <Route path="/nft/:id/:id2" element={<NftPage />} />
+        <Route path="/nft/:address/:index" element={<NftPage />} />
       </Routes>
+      <ToastContainer />
     </BrowserRouter>
   );
 }

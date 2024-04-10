@@ -1,4 +1,4 @@
-abi = [
+const abi = [
   {
     inputs: [
       {
@@ -192,4 +192,4 @@ abi = [
   },
 ];
 
-module.exports = abi;
+export default abi;

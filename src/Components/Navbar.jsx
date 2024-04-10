@@ -17,8 +17,8 @@ const Navbar = () => {
       <div className="gpt3__navbar-links">
         <div className="gpt3__navbar-links_logo">
           <Link to="/">
-            {/* <img src={logo}></img> */}
-            NF
+            <img src={logo}></img>
+            {/* NF */}
           </Link>
         </div>
       </div>

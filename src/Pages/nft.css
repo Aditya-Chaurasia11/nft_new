@@ -1,0 +1,22 @@
+.nft_container {
+  padding: 3rem 6rem;
+}
+.nft_container_upper {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.nft_container_upper_add {
+  background-color: #f4f4f5;
+  padding: 7px 20px;
+  border-radius: 50px;
+  color: #a6a3aa;
+}
+
+.nft_container_lower {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+}

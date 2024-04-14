@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { NavLink, Link } from "react-router-dom";
 import "./navbar.css";
 import logo from '../assets/nftance.png'
-import {
-  ConnectKitProvider,
-  ConnectKitButton,
-  getDefaultConfig,
-} from "connectkit";
+// import {
+//   ConnectKitProvider,
+//   ConnectKitButton,
+//   getDefaultConfig,
+// } from "connectkit";
 // import logo from "../images/logo.png";
 
 const Navbar = () => {
@@ -25,7 +25,7 @@ const Navbar = () => {
 
       <div className="gpt3__navbar-sign">
         {/* <button type="button"> */}
-          <ConnectKitButton />
+          {/* <ConnectKitButton /> */}
           {/* {walletAddress ? walletAddress.slice(0, 8) + "..." : "Add account"} */}
         {/* </button> */}
       </div>

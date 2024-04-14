@@ -1,10 +1,10 @@
 // import "./App.css";
 import { useState, useEffect } from "react";
-import {
-  ConnectKitProvider,
-  ConnectKitButton,
-  getDefaultConfig,
-} from "connectkit";
+// import {
+//   ConnectKitProvider,
+//   ConnectKitButton,
+//   getDefaultConfig,
+// } from "connectkit";
 
 // import { supabase } from "../Components/client";
 import land from "../assets/land_img.png";

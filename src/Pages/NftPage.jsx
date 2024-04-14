@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./nftpage.css";
-import abi from "../relayerABI.js";
+import relayerabi from "../relayerABI.js";
+import registryabi from "../registryABI.js";
 import { ethers } from "ethers";
 import { useParams } from "react-router-dom";
 import img1 from "../assets/img2.jpg";
@@ -9,75 +10,114 @@ import "react-toastify/dist/ReactToastify.css";
 
 const NftPage = () => {
   const [nftList, setNftlist] = useState({});
+  const [TBAaddress, setTBAaddress] = useState();
+  const [owneraddress, setowneraddress] = useState();
+  const [chainid, setchainid] = useState();
   const { address, index } = useParams();
 
-  const allNFT = () => {
-    const options = { method: "GET" };
+  // const allNFT = async () => {
 
-    fetch(
+  //   jsonresponse && loadData();
+  // };
+
+  // await allNFT()
+  const loadData = async () => {
+    const options = { method: "GET" };
+    const response = await fetch(
       `https://eth-sepolia.g.alchemy.com/nft/v2/6ToPbDTF5nhiVtF7Zb1eE4fTdZ2_Wrkk/getNFTMetadata?contractAddress=${address}&tokenId=${index}&refreshCache=true`,
       options
-    )
-      .then((response) => response.json())
-      .then((response) => {
-        setNftlist(response);
-        console.log(response);
-      })
-      .catch((err) => console.error(err));
+    );
+    const jsonresponse = await response.json();
+    console.log("all nft", jsonresponse);
+    setNftlist(jsonresponse);
+
+    const provider = new ethers.BrowserProvider(window.ethereum);
+    const { chainId } = await provider.getNetwork();
+    const signer = await provider.getSigner();
+    const ownerAddress = await signer.getAddress();
+    setowneraddress(ownerAddress);
+    console.log(ownerAddress);
+    setchainid(chainId);
+    // console.log(chainId);
+    console.log("akhefbsbvf");
+    console.log("loadData", jsonresponse);
+    const contract = new ethers.Contract(
+      "0xA529C0a819763aa30b78A72db400cD8a0Ec07482",
+      registryabi,
+      signer
+    );
+    console.log(
+      jsonresponse.contract.address,
+      jsonresponse.id.tokenId,
+      ownerAddress,
+      chainId
+    );
+    const accountAddress = await contract.account(
+      chainId,
+      jsonresponse.contract.address,
+      jsonresponse.id.tokenId,
+      ownerAddress,
+      0
+    );
+
+    console.log(accountAddress);
   };
 
   useEffect(() => {
     // contract && allNFT();
-    allNFT();
+    // allNFT().then(()=>{
+    loadData();
+    // })
+    // allNFT()&&loadData()
   }, []);
 
-  const handleClick1 = () => {
-    console.log("adadad");
+  // const handleClick1 = () => {
+  //   console.log("adadad");
 
-    const provider = new ethers.BrowserProvider(window.ethereum);
-    const loadProvider = async () => {
-      if (provider) {
-        window.ethereum.on("chainChanged", () => {
-          // Chain has changed, so reload the page
-          window.location.reload();
-        });
+  //   const provider = new ethers.BrowserProvider(window.ethereum);
+  //   const loadProvider = async () => {
+  //     if (provider) {
+  //       window.ethereum.on("chainChanged", () => {
+  //         // Chain has changed, so reload the page
+  //         window.location.reload();
+  //       });
 
-        window.ethereum.on("accountsChanged", () => {
-          // Accounts have changed, so reload the page
-          window.location.reload();
-        });
+  //       window.ethereum.on("accountsChanged", () => {
+  //         // Accounts have changed, so reload the page
+  //         window.location.reload();
+  //       });
 
-        await provider.send("eth_requestAccounts");
-        const signer = await provider.getSigner();
-        const address = await signer.getAddress();
+  //       await provider.send("eth_requestAccounts");
+  //       const signer = await provider.getSigner();
+  //       const address = await signer.getAddress();
 
-        // setAccount(address);
-        let contractAddress = "0x7e311c97DCD33D10E72fFeFC094a2C0cf3Cd7525";
-        // let contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+  //       // setAccount(address);
+  //       let contractAddress = "0xEE722dE235b9480edB59f0ec9557D2971582E7fF";
+  //       // let contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
 
-        const contract = new ethers.Contract(contractAddress, abi, signer);
+  //       const contract = new ethers.Contract(contractAddress, abi, signer);
 
-        console.log(contract);
+  //       console.log(contract);
 
-        if (contract)
-          await contract.CreateCrossChainAccount(
-            11155111,
-            nftList?.contract.address,
-            nftList?.id.tokenId
-          );
+  //       if (contract)
+  //         await contract.CreateCrossChainAccount(
+  //           11155111,
+  //           nftList?.contract.address,
+  //           nftList?.id.tokenId
+  //         );
 
-        // setContract(contract);
-        // setProvider(provider);
-      } else {
-        alert("Metamask not installed");
-      }
-    };
-    provider && loadProvider();
-  };
+  //       // setContract(contract);
+  //       // setProvider(provider);
+  //     } else {
+  //       alert("Metamask not installed");
+  //     }
+  //   };
+  //   provider && loadProvider();
+  // };
 
-  const handleClick2 = () => {
-    console.log("adadad");
-  };
+  // const handleClick2 = () => {
+  //   console.log("adadad");
+  // };
 
   {
     /* <img src={nftList?.metadata?.image}></img> */
@@ -150,6 +190,12 @@ const NftPage = () => {
                 Depoly on sepolia
               </button>
             </div>
+          </div>
+
+          <div className="nftpage_container_right_body">
+            <button>sepolia</button>
+            <button>mumbai</button>
+            <button>op-sepoila</button>
           </div>
         </div>
       </div>
